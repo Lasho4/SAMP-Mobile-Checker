@@ -108,7 +108,9 @@
 
 #define SAMP_MOBILE_CI_SERIAL 			"ED40ED0E8089CC44C08EE9580F4C8C44EE8EE990"
 
-#define IsPlayerUsingSampMobile(%0) 	s_SampMobilePlayer[%0]
+#define IsPlayerUsingSampMobile(%0) 	(s_PlayerDeviceID[%0] == DEVICE_ID_MOBILE)
+#define IsPlayerUsingSampPC(%0) 	    (!s_PlayerDeviceID[%0] == DEVICE_ID_PC)
+#define GetPlayerDeviceID(%0)           (s_PlayerDeviceID[%0])
 
 // -----------------------------------------------------------------------------
 
@@ -116,14 +118,16 @@ forward OnPlayerConnectViaSampMobile(playerid);
 
 // -----------------------------------------------------------------------------
 
-new 
-	bool: s_SampMobilePlayer[MAX_PLAYERS];
+static 
+    s_PlayerDeviceID[MAX_PLAYERS];
 
 // -----------------------------------------------------------------------------
 
-/*stock bool: IsPlayerUsingSampMobile(playerid) {
-	return (s_SampMobilePlayer[playerid]);
-}*/
+enum (+=1)
+{
+    DEVICE_ID_PC,
+    DEVICE_ID_MOBILE
+}
 
 // -----------------------------------------------------------------------------
 
@@ -140,12 +144,12 @@ public OnPlayerConnect(playerid) {
 
     if(!strcmp(SAMP_MOBILE_CI_SERIAL, ciSerial, true)) 
     {
-        s_SampMobilePlayer[playerid] = true; // Android SA-MP Mobile
+        s_PlayerDeviceID[playerid] = DEVICE_ID_MOBILE; // Android SA-MP Mobile
         CallLocalFunction("OnPlayerConnectViaSampMobile", "i", playerid);
     }
     else 
     {
-        s_SampMobilePlayer[playerid] = false; // PC or other clients
+        s_PlayerDeviceID[playerid] = DEVICE_ID_PC; // PC or other clients
     }
 
 	#if defined _SMC_OnPlayerConnect
