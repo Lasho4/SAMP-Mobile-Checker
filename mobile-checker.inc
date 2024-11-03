@@ -109,7 +109,7 @@
 #define SAMP_MOBILE_CI_SERIAL 			"ED40ED0E8089CC44C08EE9580F4C8C44EE8EE990"
 
 #define IsPlayerUsingSampMobile(%0) 	(s_PlayerDeviceID[%0] == DEVICE_ID_MOBILE)
-#define IsPlayerUsingSampPC(%0) 	    (!s_PlayerDeviceID[%0] == DEVICE_ID_PC)
+#define IsPlayerUsingSampPC(%0) 	    (s_PlayerDeviceID[%0] == DEVICE_ID_PC)
 #define GetPlayerDeviceID(%0)           (s_PlayerDeviceID[%0])
 
 // -----------------------------------------------------------------------------
